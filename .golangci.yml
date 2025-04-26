@@ -1,0 +1,54 @@
+version: "2"
+linters:
+  enable:
+    - asciicheck
+    - bodyclose
+    - dupl
+    - errname
+    - funcorder
+    - goconst
+    - gocritic
+    - gocyclo
+    - gosec
+    - importas
+    - misspell
+    - mnd
+    - nestif
+    - nilerr
+    - nilnil
+    - revive
+    - testifylint
+    - unconvert
+    - whitespace
+    - zerologlint
+  settings:
+    errcheck:
+      # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
+      check-type-assertions: true
+      # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`;
+      check-blank: true
+    gocyclo:
+      # minimal code complexity to report, 30 by default
+      min-complexity: 15
+    govet:
+      enable:
+        # Check for redundant or impossible nil comparisons.
+        - nilness
+        # Check for possible unintended shadowing of variables.
+        - shadow
+    revive:
+      rules:
+        # Do not bother with package level comments
+        - name: package-comments
+          disabled: true
+formatters:
+  enable:
+    - gci
+    - gofmt
+  settings:
+    gci:
+      sections:
+        - standard
+        - localmodule
+        - default
+      custom-order: true
