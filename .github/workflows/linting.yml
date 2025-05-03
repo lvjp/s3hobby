@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  go-mod-tidy:
+  go-test:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
@@ -20,7 +20,7 @@ jobs:
       - name: Run tests
         run: go test -v ./...
 
-  go-test:
+  go-mod-tidy:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
