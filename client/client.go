@@ -1,13 +1,33 @@
 package client
 
 import (
+	"context"
 	"errors"
+
+	"github.com/lvjp/s3hobby/pkg/s3/api"
 )
 
-type Client struct{}
+type Client struct {
+	options Options
+}
 
-func New() (*Client, error) {
-	return nil, errors.ErrUnsupported
+func New(options *Options, optFns ...func(*Options)) (*Client, error) {
+	c := &Client{}
+
+	if options != nil {
+		c.options = *options
+	}
+
+	for _, fn := range optFns {
+		fn(&c.options)
+	}
+
+	c.options.setDefaults()
+	if err := c.options.Validate(); err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
 
 func (*Client) AbortMultipartUpload() error {
@@ -22,8 +42,8 @@ func (*Client) CopyObject() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) CreateBucket() error {
-	return errors.ErrUnsupported
+func (c *Client) CreateBucket(ctx context.Context, input *api.CreateBucketInput, optFns ...func(*Options)) (*api.CreateBucketOutput, *Metadata, error) {
+	return PerformCall[*api.CreateBucketInput, *api.CreateBucketOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) CreateBucketMetadataTableConfiguration() error {
@@ -38,8 +58,8 @@ func (*Client) CreateSession() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) DeleteBucket() error {
-	return errors.ErrUnsupported
+func (c *Client) DeleteBucket(ctx context.Context, input *api.DeleteBucketInput, optFns ...func(*Options)) (*api.DeleteBucketOutput, *Metadata, error) {
+	return PerformCall[*api.DeleteBucketInput, *api.DeleteBucketOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) DeleteBucketAnalyticsConfiguration() error {
@@ -146,8 +166,8 @@ func (*Client) GetBucketLifecycleConfiguration() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) GetBucketLocation() error {
-	return errors.ErrUnsupported
+func (c *Client) GetBucketLocation(ctx context.Context, input *api.GetBucketLocationInput, optFns ...func(*Options)) (*api.GetBucketLocationOutput, *Metadata, error) {
+	return PerformCall[*api.GetBucketLocationInput, *api.GetBucketLocationOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) GetBucketLogging() error {
@@ -202,8 +222,8 @@ func (*Client) GetBucketWebsite() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) GetObject() error {
-	return errors.ErrUnsupported
+func (c *Client) GetObject(ctx context.Context, input *api.GetObjectInput, optFns ...func(*Options)) (*api.GetObjectOutput, *Metadata, error) {
+	return PerformCall[*api.GetObjectInput, *api.GetObjectOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) GetObjectAcl() error {
@@ -238,12 +258,12 @@ func (*Client) GetPublicAccessBlock() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) HeadBucket() error {
-	return errors.ErrUnsupported
+func (c *Client) HeadBucket(ctx context.Context, input *api.HeadBucketInput, optFns ...func(*Options)) (*api.HeadBucketOutput, *Metadata, error) {
+	return PerformCall[*api.HeadBucketInput, *api.HeadBucketOutput](ctx, &c.options, input, optFns...)
 }
 
-func (*Client) HeadObject() error {
-	return errors.ErrUnsupported
+func (c *Client) HeadObject(ctx context.Context, input *api.HeadObjectInput, optFns ...func(*Options)) (*api.HeadObjectOutput, *Metadata, error) {
+	return PerformCall[*api.HeadObjectInput, *api.HeadObjectOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) ListBucketAnalyticsConfigurations() error {
@@ -262,8 +282,8 @@ func (*Client) ListBucketMetricsConfigurations() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) ListBuckets() error {
-	return errors.ErrUnsupported
+func (c *Client) ListBuckets(ctx context.Context, input *api.ListBucketsInput, optFns ...func(*Options)) (*api.ListBucketsOutput, *Metadata, error) {
+	return PerformCall[*api.ListBucketsInput, *api.ListBucketsOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) ListDirectoryBuckets() error {
@@ -370,8 +390,8 @@ func (*Client) PutBucketWebsite() error {
 	return errors.ErrUnsupported
 }
 
-func (*Client) PutObject() error {
-	return errors.ErrUnsupported
+func (c *Client) PutObject(ctx context.Context, input *api.PutObjectInput, optFns ...func(*Options)) (*api.PutObjectOutput, *Metadata, error) {
+	return PerformCall[*api.PutObjectInput, *api.PutObjectOutput](ctx, &c.options, input, optFns...)
 }
 
 func (*Client) PutObjectAcl() error {
