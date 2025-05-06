@@ -52,3 +52,10 @@ formatters:
         - localmodule
         - default
       custom-order: true
+issues:
+  # Maximum issues count per one linter.
+  max-issues-per-linter: 0
+  # Maximum count of issues with the same text.
+  max-same-issues: 0
+  # Make issues output unique by line.
+  uniq-by-line: false
