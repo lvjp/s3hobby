@@ -86,12 +86,12 @@ func newHeaderSigningCtx(args signing.SigningArgs) *headerSigningCtx {
 func (ctx *headerSigningCtx) computeHeaders() (canonicalHeaders, signedHeaders string) {
 	normalized := make(map[string]string, ctx.Request.Header.Len())
 
-	ctx.Request.Header.VisitAll(func(key, value []byte) {
+	for key, value := range ctx.Request.Header.All() {
 		normalizedKey := functions.LowerCase(string(key))
 		normalizedValue := functions.Trim(string(value))
 
 		normalized[normalizedKey] = normalizedValue
-	})
+	}
 
 	// Ensure host header presence
 	if _, exists := normalized["host"]; !exists {
@@ -131,9 +131,9 @@ func (ctx *headerSigningCtx) getCanonicalQueryString() string {
 	args := ctx.Request.URI().QueryArgs()
 	encoded := make(map[string]string, args.Len())
 
-	args.VisitAll(func(key, value []byte) {
+	for key, value := range args.All() {
 		encoded[functions.URIEncode(string(key), false)] = functions.URIEncode(string(value), false)
-	})
+	}
 
 	var ret strings.Builder
 
