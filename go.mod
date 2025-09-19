@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/stretchr/testify v1.11.1
-	github.com/valyala/fasthttp v1.63.0
+	github.com/valyala/fasthttp v1.66.0
 )
 
 require (
