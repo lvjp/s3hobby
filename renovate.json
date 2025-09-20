@@ -21,5 +21,19 @@
         "# renovate: datasource=(?<datasource>.+) depName=(?<depName>.+)\\s+\\w+: \\s?(?<currentValue>.+)"
       ]
     }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchDepNames": [
+        "go"
+      ],
+      "matchDepTypes": [
+        "golang"
+      ],
+      "rangeStrategy": "bump"
+    }
   ]
 }
